@@ -1,0 +1,136 @@
+.create-ba-form {
+  margin: 20px;
+  margin-top: 80px;
+}
+
+.create-ba-container {
+  margin-left: 20rem;
+  margin-right: 20rem;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-rows: repeat(3, auto);
+  grid-column-gap: 15px;
+}
+
+.ba-vpmn {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  align-self: start;
+  padding: 5px;
+}
+
+.ba-hpmn {
+  grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  align-self: start;
+  padding: 5px;
+}
+
+.ba-tz {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  align-self: start;
+  padding: 5px;
+}
+
+.ba-dates-from {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  align-self: start;
+  padding: 5px;
+}
+
+.ba-dates-to {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  align-self: start;
+  padding: 5px;
+}
+
+.ba-radio {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  align-self: start;
+  padding: 5px;
+}
+
+.ba-select {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-auto-flow: column;
+  align-self: start;
+  padding: 5px;
+}
+
+.create-ba-left-col {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 0;
+  grid-row-end: 0;
+  align-self: start;
+  padding: 5px;
+}
+
+.create-ba-inner-left-col {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  align-self: start;
+  padding: 5px;
+}
+
+.create-ba-right-col {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  align-self: start;
+  padding: 5px;
+}
+
+.create-ba-inner-right-col {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  align-self: start;
+  padding: 5px;
+}
+
+@media only screen and (max-width: 948px) {
+  .create-ba-container {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .create-ba-container {
+    grid-template-columns: 100%;
+    grid-template-rows: 50%;
+    min-height: 50rem;
+  }
+
+  .create-ba-right-col {
+    padding-top: 8rem;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 2;
+  }
+}
