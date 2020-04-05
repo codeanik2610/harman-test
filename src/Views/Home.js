@@ -43,7 +43,7 @@ const Home = () => {
         <div className="col-3">
           <Card interactive={false} elevation={Elevation.TWO}>
             <CustomSelect
-              label="Filter Enabled Demo"
+              label="Filter disabled Demo"
               data={selectOptions}
               activeItem={activeItem}
               setSelectedItem={setSelectedItemCb}
