@@ -13,7 +13,17 @@ const Home = () => {
   ];
   const [selectOptions, setSelectOptions] = useState(data);
   const [activeItem, setActiveItem] = useState({ code: "DEO2", number: "DE" });
-  const setSelectedItemCb = (e) => {
+  const setSelectedItemCb = (e, isRecordCreated) => {
+    if (isRecordCreated) {
+      // setSelectOptions(preVal => {
+      //   preVal.push(e);
+      //   return [...preVal];
+      // })
+      setSelectOptions([
+        ...selectOptions,
+        e
+      ])
+    };
     setActiveItem(e);
   }
   const ref = createRef();
@@ -31,6 +41,7 @@ const Home = () => {
               disabled={true}
               searchNotFoundText="Result Not Found"
               initialContent={"text"}
+              customStylePopUp={{ background: "#000000" }}
             >
               <Button
                 icon="film"
@@ -43,11 +54,12 @@ const Home = () => {
         <div className="col-3">
           <Card interactive={false} elevation={Elevation.TWO}>
             <CustomSelect
-              label="Filter disabled Demo"
+              label="Filter Disabled Demo"
               data={selectOptions}
               activeItem={activeItem}
               setSelectedItem={setSelectedItemCb}
-              filterable={false}>
+              filterable={false}
+            >
               <Button
                 icon="film"
                 rightIcon="caret-down"
@@ -65,7 +77,8 @@ const Home = () => {
               setSelectedItem={setSelectedItemCb}
               disabled={false}
               filterable={true}
-              searchNotFoundText="Result Not Found" >
+              searchNotFoundText="Result Not Found"
+            >
               <Button
                 icon="film"
                 rightIcon="caret-down"
@@ -134,6 +147,46 @@ const Home = () => {
               hasInitialContent={true}
               filterable={false}
               initialContent={`${data.length} records selected`}
+            >
+              <Button
+                icon="film"
+                rightIcon="caret-down"
+                text={activeItem.code}
+              />
+            </CustomSelect>
+          </Card>
+        </div>
+        <div className="col-3">
+          <Card interactive={false} elevation={Elevation.TWO}>
+            <CustomSelect
+              label="Filter With Style Comp"
+              data={selectOptions}
+              activeItem={activeItem}
+              setSelectedItem={setSelectedItemCb}
+              filterable={false}
+              customPopUpStyle={{ width: "300px", color: "#FFFFFF", background: "#000000" }}
+            >
+              <Button
+                icon="film"
+                rightIcon="caret-down"
+                text={activeItem.code}
+              />
+            </CustomSelect>
+          </Card>
+        </div>
+      </div>
+      <div className="row pt-2">
+        <div className="col-3">
+          <Card interactive={false} elevation={Elevation.TWO}>
+            <CustomSelect
+              label="Filter With Allow Create"
+              data={selectOptions}
+              activeItem={activeItem}
+              setSelectedItem={setSelectedItemCb}
+              filterable={true}
+              customPopUpStyle={{ width: "300px", color: "#FFFFFF", background: "#000000" }}
+              allowCreate={true}
+
             >
               <Button
                 icon="film"

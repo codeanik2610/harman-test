@@ -4,43 +4,40 @@ import { Select } from "@blueprintjs/select";
 import "./style.css";
 import PropTypes from "prop-types";
 import omit from 'object.omit';
+import styled from 'styled-components';
+
 
 const CustomSelect = forwardRef((props, ref) => {
-  const { label, data = [], activeItem = {}, setSelectedItem, searchNotFoundText = "Not Found" } = props;
+  let isRecordCreated = false;
+  const { allowCreate = false, label, data = [], activeItem = {}, setSelectedItem, searchNotFoundText = "Not Found", customPopUpStyle = {} } = props;
   const _props = omit({ ...props }, ['data', 'activeItem', 'setSelectedItem', 'buttonConfig'])
-  const [options, setOption] = useState();
 
-  useState(() => {
-    setOption(activeItem)
-  }, [activeItem]);
-
-  useState(() => {
-    let finalData;
-    if (data.length > 0) {
-      finalData = data.map((m, index) => ({ ...m, rank: index + 1 }));
-      setOption(finalData)
-    }
-  }, [options]);
-
+  const MenuItemWrapper = styled.section`
+    ${customPopUpStyle}
+  `;
   const handleValueChange = selectedOption => {
-    setSelectedItem(selectedOption)
+    setSelectedItem(selectedOption, isRecordCreated);
   };
 
   const handelRender = (data, { handleClick, modifiers, query }) => {
     if (!modifiers.matchesPredicate) {
       return null;
     }
-    const text = `${data.rank}. ${data.code}`;
+    const text = `${data.rank}.${data.code} `;
     return (
-      <MenuItem
-        ref={ref}
-        active={modifiers.active}
-        disabled={modifiers.disabled}
-        label={data.number.toString()}
-        key={data.rank}
-        onClick={handleClick}
-        text={highlightText(text, query)}
-      />
+      <>
+        <MenuItemWrapper>
+          <MenuItem
+            ref={ref}
+            active={modifiers.active}
+            disabled={modifiers.disabled}
+            label={data.number.toString()}
+            key={data.rank}
+            onClick={handleClick}
+            text={highlightText(text, query)}
+          />
+        </MenuItemWrapper>
+      </>
     );
   };
 
@@ -48,13 +45,13 @@ const CustomSelect = forwardRef((props, ref) => {
     return (
       `${
         data.rank
-        }. ${data.code.toLowerCase()} ${data.number.toLowerCase()}`.indexOf(
+        }.${data.code.toLowerCase()} ${data.number.toLowerCase()} `.indexOf(
           query.toLowerCase()
         ) >= 0
     );
   };
 
-  function highlightText(text, query) {
+  const highlightText = (text, query) => {
     let lastIndex = 0;
     const words = query
       .split(/\s+/)
@@ -85,21 +82,49 @@ const CustomSelect = forwardRef((props, ref) => {
     return tokens;
   }
 
-  function escapeRegExpChars(text) {
+  const escapeRegExpChars = (text) => {
     return text.replace(/([.*+?^=!:${}()|[\]/\\])/g, "\\$1");
   }
 
+  const createRecord = (code) => {
+    isRecordCreated = true;
+    return {
+      rank: 100 + Math.floor(Math.random() * 100 + 1),
+      code,
+      number: "UK",
+    };
+  }
+
+  const renderCreateOption = (
+    query,
+    active,
+    handleClick
+  ) => (
+      <MenuItem
+        icon="add"
+        text={`Create "${query}"`}
+        active={active}
+        onClick={handleClick}
+        shouldDismissPopover={false}
+      />
+    );
+
+  const maybeCreateNewItemFromQuery = allowCreate ? createRecord : undefined;
+  const maybeCreateNewItemRenderer = allowCreate ? renderCreateOption : null;
+
   return (
-    <div className="tadig-label">
+    <div className="label">
       {label && <H5>{label}</H5>}
       <Select
         ref={ref}
         fill
-        items={options}
+        items={data.map((m, index) => ({ ...m, rank: index + 1 }))}
         itemPredicate={handleFilter}
         itemRenderer={handelRender}
         noResults={<MenuItem disabled={true} text={searchNotFoundText} />}
         onItemSelect={handleValueChange}
+        createNewItemFromQuery={maybeCreateNewItemFromQuery}
+        createNewItemRenderer={maybeCreateNewItemRenderer}
         {..._props}
       >
         {props.children}
@@ -118,6 +143,8 @@ CustomSelect.propTypes = {
   resetOnQuery: PropTypes.bool,
   resetOnSelect: PropTypes.bool,
   scrollToActiveItem: PropTypes.bool,
-  searchNotFoundText: PropTypes.string
+  searchNotFoundText: PropTypes.string,
+  customPopUpStyle: PropTypes.object,
+  allowCreate: PropTypes.bool
 }
 export default CustomSelect;
